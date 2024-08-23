@@ -1,7 +1,7 @@
 let container = document.getElementById('container')
 
 let nome = '', gen = ''
-let coin = 0
+let coin = 0, casa = 0
 
 
 function voltar() {
@@ -9,6 +9,7 @@ function voltar() {
         <p>Bem vindo jogador oque você quer fazer?</p>
         <button onclick="jogar()">Jogar</button>
         <button onclick="creditos()">Créditos</button>
+        <button onclick="opcoes()">Opções</button>
         <button onclick="sair()">Sair</button>
     `
 }
@@ -24,6 +25,36 @@ function creditos() {
         <p><b>Bug Tester: </b>Ruan Geraldão</p>
         <p><b>Avaliador: </b>Maçaneiro</p>
     `
+}
+
+function opcoes() {
+    container.innerHTML = `
+        <button onclick="voltar()">Voltar</button>
+        <p>Tema: </p>
+        <button onclick='escuro()'>Escuro</button>
+        <button onclick='claro()'>Claro</button>
+        <button onclick='surprise()'>Surpreenda-me</button>
+    `
+}
+
+function escuro() {
+    document.body.style.backgroundColor = 'black'
+    document.body.style.color = 'white'
+}
+
+function claro() {
+    document.body.style.backgroundColor = 'white'
+    document.body.style.color = 'black'
+}
+
+function surprise() {
+    let colors = ['red', 'orange', 'yellow', 'pink', 'green', 'blue', 'violet', 'purple', 'white', 'black']
+
+    let background = Math.floor(Math.random() * (colors.length + 1))
+    let text = Math.floor(Math.random() * (colors.length + 1))
+
+    document.body.style.backgroundColor = colors[background]
+    document.body.style.color = colors[text]
 }
 
 function sair() {
@@ -128,23 +159,23 @@ function iniciar() {
     container.innerHTML = `
         Carregando Mundo
     `
-    setTimeout(()=>{
+    setTimeout(() => {
         container.innerHTML += '.'
     }, 500)
-    setTimeout(()=>{
+    setTimeout(() => {
         container.innerHTML += '.'
     }, 1000)
-    setTimeout(()=>{
+    setTimeout(() => {
         container.innerHTML += '.'
     }, 1500)
-    setTimeout(()=>{
+    setTimeout(() => {
         historia()
     }, 2000)
 }
 
 function historia() {
-    if(gen == "mas") {
-        setTimeout(()=>{
+    if (gen == "mas") {
+        setTimeout(() => {
             container.innerHTML = `
                 <p>Era uma vez um jovem chamado ${nome}.</p>
                 <pre>    +++++++++++++++++++===-----------------------------------------------------------==+++++++++++++++++
@@ -215,7 +246,7 @@ function historia() {
                 `
         }, 500)
 
-        setTimeout(()=>{
+        setTimeout(() => {
             container.innerHTML = `
                 <p>Ele estava cansado da vida na cidade grande...</p>
                 <pre>==============================================================+==============================++=====
@@ -285,8 +316,8 @@ function historia() {
                 </pre>
             `
         }, 5500)
-            
-        setTimeout(()=>{
+
+        setTimeout(() => {
             container.innerHTML = `
                 <p>Então ele decide abandonar tudo e comprar uma fazenda em uma pequena villa chamada Codig Valley</p>
                 <pre>=========-.........:================================:.......:====================================+++
@@ -359,8 +390,8 @@ function historia() {
             `
         }, 11500)
 
-    } else if(gen == "fem"){
-        setTimeout(()=>{
+    } else if (gen == "fem") {
+        setTimeout(() => {
             container.innerHTML = `
                 <p>Era uma vez uma jovem chamada ${nome}.</p>
                 <pre>    +++++++++++++++++++===-----------------------------------------------------------==+++++++++++++++++
@@ -431,7 +462,7 @@ function historia() {
                 `
         }, 500)
 
-        setTimeout(()=>{
+        setTimeout(() => {
             container.innerHTML = `
                 <p>Ela estava cansada da vida na cidade grande...</p>
                 <pre>==============================================================+==============================++=====
@@ -501,8 +532,8 @@ function historia() {
                 </pre>
             `
         }, 5500)
-            
-        setTimeout(()=>{
+
+        setTimeout(() => {
             container.innerHTML = `
                 <p>Então ela decide abandonar tudo e comprar uma fazenda em uma pequena villa chamada Codig Valley</p>
                 <pre>=========-.........:================================:.......:====================================+++
@@ -583,18 +614,81 @@ function historia() {
 }
 
 function inicio() {
-    setTimeout(()=>{
+    setTimeout(() => {
         coin = 2500
         container.innerHTML = "Você Juntou todo seu dinheiro e foi para a vila <br>"
-        container.innerHTML += `Saldo: ${coin}`
-    },500)
+        container.innerHTML += `Saldo: ${coin.toFixed(2)}<br>`
+        container.innerHTML += `
+            <div id="buttons">
+                Qual casa vai querer?<br>
+                <button style='margin-top: 5px;' onclick='resposta("luxo")'>Casinha de Luxo. coin: 2000.00</button><br>
+                <button style='margin-top: 5px;' onclick='resposta("simples")'>Casinha Simples. coin: 1000.00</button><br>
+                <button style='margin-top: 5px;' onclick='resposta("nada")'>Não comprar Casa</button>
+            </div>
+        `
+    }, 500)
 
-    setTimeout(()=>{
-        mapa()    
-    }, 3500)
 }
 
-function mapa() {
+function resposta(casa) {
+    document.getElementById(`buttons`).style.display = `none`
+
+    if(casa == "luxo") {
+        container.innerHTML += `
+            Uma linda e aconchegante casa.<br>
+            -2000.00
+        `
+        coin -= 2000
+    }else if(casa == "simples") {
+        container.innerHTML += `
+            Não é a melhor, mas já é melhor do que durmir no chão.
+            -1000.00
+        `
+        coin -= 1000
+    }else {
+        container.innerHTML += `
+            Felizmente, você encontrou uma caixa de papelão SUPER confortável no lixo do seu futuro vizinho.<br>
+            Espero que ele não te ache estranho por isso.<br>
+            Sua primeira noite foi boa... 
+        `
+
+        setTimeout(()=>{
+            container.innerHTML += `
+                Tirando o fato que você foi 
+            `
+        }, 500)
+
+        setTimeout(()=>{
+            if(gen == 'mas') {
+                setTimeout(container.innerHTML += `roubado, `, 500)
+                setTimeout(container.innerHTML += `abusado, `, 1000)
+                setTimeout(container.innerHTML += `cuspido, `, 1500)
+                setTimeout(container.innerHTML += `jogado, `, 2000)
+                setTimeout(container.innerHTML += `molhado `, 2500)
+                setTimeout(container.innerHTML += `e ficou passando frio a noite inteira. `, 3000)                
+            }else {
+                setTimeout(container.innerHTML += `roubada, `, 500)
+                setTimeout(container.innerHTML += `abusada, `, 1000)
+                setTimeout(container.innerHTML += `cuspida, `, 1500)
+                setTimeout(container.innerHTML += `jogada, `, 2000)
+                setTimeout(container.innerHTML += `molhada `, 2500)
+                setTimeout(container.innerHTML += `e ficou passando frio a noite inteira. <br> -7.00`, 3000)                
+            }
+        },1000)
+        coin -= 7
+    }
+
+    setTimeout(()=>{
+        container.innerHTML += `
+            <br>
+            <br>
+            <br>
+            <button onclick='mapa(${casa})'>Começar</button>
+        `
+    }, 2500)
+}
+
+function mapa(casa) {
     container.innerHTML = `
         <div id="inventario">
             <pre>
